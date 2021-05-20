@@ -1,13 +1,13 @@
-import UsersList from "./components/UsersList";
-import "./App.css";
-import { Switch, Route } from "react-router-dom";
-import UserProfile from "./components/UserProfile";
+import UsersList from './components/UsersList';
+import './App.css';
+import { Switch, Route, Link } from 'react-router-dom';
+import UserProfile from './components/UserProfile';
 
 function App() {
   return (
     <Switch>
       <Route exact path="/" component={UsersList}></Route>
-      <Route path="/user/:id" component={UserProfile}></Route>
+      <Route path="/:id" component={UserProfile}></Route>
     </Switch>
   );
 }

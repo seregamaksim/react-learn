@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const UserItem = styled.li`
   background-color: #f9f9f9;
@@ -43,29 +43,25 @@ const UserItemLink = styled(Link)`
   top: 0;
   bottom: 0;
 `;
-class UsersItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userInfo: this.props.info,
-    };
-  }
-  render() {
-    return (
-      <UserItem>
-        <UserItemWrap>
-          <UserItemLink to={`/user/${this.state.userInfo.id}`}></UserItemLink>
-          <UserItemAva src={this.state.userInfo.picture}></UserItemAva>
-          <UserItemName>
-            {this.state.userInfo.firstName} {this.state.userInfo.lastName}
-          </UserItemName>
-          <UserItemEmail href={`mailto: ${this.state.userInfo.email}`}>
-            {this.state.userInfo.email}
-          </UserItemEmail>
-        </UserItemWrap>
-      </UserItem>
-    );
-  }
+function UsersItem(props) {
+  const [userInfo, setUserInfo] = useState(props.info);
+
+  return (
+    <UserItem>
+      <UserItemWrap>
+        <UserItemLink to={`/${userInfo.id}`}></UserItemLink>
+        {
+          <UserItemAva
+            src={`https://picsum.photos/id/${userInfo.id}/150`}
+          ></UserItemAva>
+        }
+        <UserItemName>{userInfo.name}</UserItemName>
+        <UserItemEmail href={`mailto: ${userInfo.email}`}>
+          {userInfo.email}
+        </UserItemEmail>
+      </UserItemWrap>
+    </UserItem>
+  );
 }
 
 export default UsersItem;
