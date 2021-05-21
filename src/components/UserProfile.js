@@ -71,15 +71,17 @@ export default function UserProfile(props) {
 
   useEffect(() => {
     console.log('userData');
-    fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
-      .then((res) => res.json())
+    axios
+      .get(`https://jsonplaceholder.typicode.com/users/${userId}`)
+      // .then((res) => res.json())
       .then(
-        (result) => {
+        ({ data }) => {
+          console.log('res', data);
           setIsLoaded(true);
-          setUserData(result);
+          setUserData(data);
           setLocation([
-            Number(result.address.geo.lat),
-            Number(result.address.geo.lng),
+            Number(data.address.geo.lat),
+            Number(data.address.geo.lng),
           ]);
         },
         (error) => {
