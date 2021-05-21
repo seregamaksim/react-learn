@@ -12,7 +12,7 @@ const ProfileSection = styled.section`
   /* display: flex; */
 `;
 const ProfileWrapper = styled.div`
-  padding: 20px;
+  padding: 15px;
   width: 100%;
   /* display: flex;
   justify-content: space-between;
@@ -27,14 +27,25 @@ const ProfileImage = styled.img.attrs((props) => ({
   border-radius: 10px;
   margin-right: 30px;
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.3);
+  @media (max-width: 700px) {
+    margin-bottom: 20px;
+  }
 `;
 const MainInfoWrap = styled.div`
   display: flex;
   align-items: flex-start;
   font-size: 18px;
   line-height: 1.3;
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
-const MainInfo = styled.div``;
+const MainInfo = styled.div`
+  @media (max-width: 700px) {
+    align-self: flex-start;
+  }
+`;
 const UserName = styled.h1`
   /* font-size: 22px; */
   color: #111;

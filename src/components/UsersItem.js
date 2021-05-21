@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 const UserItem = styled.li`
   background-color: #f9f9f9;
   list-style: none;
+  &:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  }
 `;
 const UserItemWrap = styled.div`
   padding: 15px;

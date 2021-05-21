@@ -17,14 +17,14 @@ export default function UserPosts(props) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    if (posts.length === 0) {
-      axios
-        .get(`https://jsonplaceholder.typicode.com/users/${props.id}/posts`)
-        .then(({ data }) => {
-          setPosts(data);
-          console.log('userPosts', posts);
-        });
-    }
+    // if (posts.length === 0) {
+    axios
+      .get(`https://jsonplaceholder.typicode.com/users/${props.id}/posts`)
+      .then(({ data }) => {
+        setPosts(data);
+        console.log('userPosts', posts);
+      });
+    // }
   }, []);
   let listPosts = posts.map((post) => {
     return <StyledUserPost key={post.id} data={post} />;
