@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import UsersItem from './UsersItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsers, selectUsers } from '../app/reducers/Users';
 
 const List = styled.ul`
   display: grid;
@@ -11,15 +12,14 @@ const List = styled.ul`
 `;
 
 function UsersList() {
-  console.log('render');
-  const [users, setUsers] = useState([]);
+  const users = useSelector(selectUsers);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(`https://jsonplaceholder.typicode.com/users`)
-      .then(({ data }) => setUsers(data));
-  }, []);
-  console.log('response', users);
+    if (users.length === 0) {
+      dispatch(getUsers());
+    }
+  }, [dispatch]);
   const listItems = users.map((item) => {
     return <UsersItem key={item.id} info={item} />;
   });
