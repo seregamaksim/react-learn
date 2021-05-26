@@ -6,6 +6,13 @@ import isEmpty from '../helpers/isEmpty';
 import UserMapProfile from './UserMapProfile';
 import TabsButton from './TabsButton';
 import UserPosts from './UserPosts';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import {
+  getFullUserProfile,
+  selectUserProfile,
+  getSelectUserProfile,
+  getUserById,
+} from '../app/reducers/FullUserProfiles';
 
 const ProfileSection = styled.section`
   /* background-color: yellow; */
@@ -86,7 +93,17 @@ const StyleTabsButton = styled(TabsButton)`
 // const ShowUserPosts = styled(UserPosts)`
 //   display: ${(props) => (props.show ? 'block' : 'none')};
 // `;
+
+// function mapStateToProps(state, props) {
+//   // const profiles = selectUserProfile();
+//   // console.log('props.match.params.id', props.match.params.id);
+//   // console.log('getUserById', getUserById(state, Number(props.match.params.id)));
+//   return {
+//     user: getUserById(state, props.match.params.id),
+//   };
+// }
 export default function UserProfile(props) {
+  console.log('props', props);
   const [userId, setUserId] = useState(props.match.params.id);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
@@ -97,7 +114,13 @@ export default function UserProfile(props) {
   const [isOpenPost, setOpenPost] = useState(false);
   const [loadPosts, setLoadPosts] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
+  // const userProfile = props.user;
+  // const dispatch = useDispatch();
+  // const getProfile = useSelector(getUserById(userId));
 
+  // useEffect(() => {
+  //   dispatch(getFullUserProfile(userId));
+  // }, [userProfile]);
   useEffect(() => {
     axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`).then(
       ({ data }) => {
@@ -176,3 +199,5 @@ export default function UserProfile(props) {
     ) : null;
   }
 }
+
+// export default connect(mapStateToProps)(UserProfile);
