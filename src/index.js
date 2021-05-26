@@ -4,10 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import styled from 'styled-components';
 
+const HeadLinks = styled.div`
+  background-color: blue;
+  a {
+    font-size: 20px;
+    line-height: 28px;
+    color: #fff;
+    display: inline-block;
+    margin-right: 15px;
+  }
+`;
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+      <HeadLinks>
+        <Link to="/">HOME</Link>
+        <Link to="/form">FORM</Link>
+      </HeadLinks>
       <App />
     </Router>
   </React.StrictMode>,
