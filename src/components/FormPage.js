@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import { render } from 'react-dom';
 import { Form, Field } from 'react-final-form';
 import styled, { css } from 'styled-components';
 
@@ -69,10 +67,22 @@ const Styles = styled.div`
       line-height: 2em;
       margin: 5px;
       & > label {
+        display: flex;
+        justify-content: space-between;
         color: #333;
-        width: 110px;
+        width: 100%;
+
         font-size: 1em;
         line-height: 32px;
+        span {
+          display: block;
+          min-width: 90px;
+          margin-right: 20px;
+        }
+        input,
+        select {
+          flex-grow: 1;
+        }
       }
       & > input,
       & > select,
@@ -120,157 +130,60 @@ const Styles = styled.div`
     }
   }
 `;
-const StyledInput = styled(Field)`
-  border-color: green;
-  padding: 10px;
-  color: blue;
-`;
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const onSubmit = async (values) => {
   await sleep(300);
-  window.alert(JSON.stringify(values, 0, 2));
+  console.log('values', JSON.stringify(values));
+  console.log('values parse', JSON.parse(JSON.stringify(values)));
+  // window.alert(JSON.stringify(values, 0, 2));
 };
 
+const validateInput = (values) =>
+  values ? undefined : console.log('error', values);
 export default function FormPage() {
   return (
     <Styles>
-      <h1>React Final Form - Simple Example</h1>
-      <a
-        href="https://final-form.org/react"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Read Docs
-      </a>
       <Form
         onSubmit={onSubmit}
-        initialValues=""
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
-            {console.log(form)}
             <div>
-              <label>First Name</label>
-              <Field
-                name="firstName"
-                component="input"
-                type="text"
-                placeholder="First Name"
-                className="test"
-              />
+              <label>
+                <span>First name</span>
+                <Field
+                  name="firstName"
+                  component="input"
+                  type="text"
+                  placeholder="First Name"
+                  validate={validateInput}
+                />
+              </label>
             </div>
             <div>
-              <label>Last Name</label>
-              <Field
-                name="lastName"
-                component="input"
-                type="text"
-                placeholder="Last Name"
-              />
+              <label>
+                <span>Last name</span>
+                <Field
+                  name="lastName"
+                  component="input"
+                  type="text"
+                  placeholder="Last Name"
+                />
+              </label>
             </div>
             <div>
-              <label>Employed</label>
-              <Field name="employed" component="input" type="checkbox" />
-            </div>
-            <div>
-              <label>Favorite Color</label>
-              <Field name="favoriteColor" component="select">
-                <option />
-                <option value="#ff0000">❤️ Red</option>
-                <option value="#00ff00">💚 Green</option>
-                <option value="#0000ff">💙 Blue</option>
-              </Field>
-            </div>
-            <div>
-              <label>Toppings</label>
-              <Field name="toppings" component="select" multiple>
-                <option value="chicken">🐓 Chicken</option>
-                <option value="ham">🐷 Ham</option>
-                <option value="mushrooms">🍄 Mushrooms</option>
-                <option value="cheese">🧀 Cheese</option>
-                <option value="tuna">🐟 Tuna</option>
-                <option value="pineapple">🍍 Pineapple</option>
-              </Field>
-            </div>
-            <div>
-              <label>Sauces</label>
-              <div>
-                <label>
-                  <Field
-                    name="sauces"
-                    component="input"
-                    type="checkbox"
-                    value="ketchup"
-                  />{' '}
-                  Ketchup
-                </label>
-                <label>
-                  <Field
-                    name="sauces"
-                    component="input"
-                    type="checkbox"
-                    value="mustard"
-                  />{' '}
-                  Mustard
-                </label>
-                <label>
-                  <Field
-                    name="sauces"
-                    component="input"
-                    type="checkbox"
-                    value="mayonnaise"
-                  />{' '}
-                  Mayonnaise
-                </label>
-                <label>
-                  <Field
-                    name="sauces"
-                    component="input"
-                    type="checkbox"
-                    value="guacamole"
-                  />{' '}
-                  Guacamole 🥑
-                </label>
-              </div>
-            </div>
-            <div>
-              <label>Best Stooge</label>
-              <div>
-                <label>
-                  <Field
-                    name="stooge"
-                    component="input"
-                    type="radio"
-                    value="larry"
-                  />{' '}
-                  Larry
-                </label>
-                <label>
-                  <Field
-                    name="stooge"
-                    component="input"
-                    type="radio"
-                    value="moe"
-                  />{' '}
-                  Moe
-                </label>
-                <label>
-                  <Field
-                    name="stooge"
-                    component="input"
-                    type="radio"
-                    value="curly"
-                  />{' '}
-                  Curly
-                </label>
-              </div>
-            </div>
-            <div>
-              <label>Notes</label>
-              <Field name="notes" component="textarea" placeholder="Notes" />
+              <label>
+                <span>Select</span>
+                <Field name="select" component="select">
+                  <option value="test">Test</option>
+                  <option value="test2">Test2</option>
+                  <option value="test3">Test3</option>
+                </Field>
+              </label>
             </div>
             <div className="buttons">
-              <button type="submit" disabled={submitting || pristine}>
+              <button type="submit" disabled={submitting}>
                 Submit
               </button>
               <button
