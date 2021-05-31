@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import UsersItem from './UsersItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, selectUsers } from '../app/reducers/Users';
