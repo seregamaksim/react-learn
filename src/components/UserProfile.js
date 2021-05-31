@@ -6,13 +6,8 @@ import isEmpty from '../helpers/isEmpty';
 import UserMapProfile from './UserMapProfile';
 import TabsButton from './TabsButton';
 import UserPosts from './UserPosts';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import {
-  getFullUserProfile,
-  selectUserProfile,
-  getSelectUserProfile,
-  getUserById,
-} from '../app/reducers/FullUserProfiles';
+import { useSelector } from 'react-redux';
+import { selectUsers } from '../app/reducers/Users';
 
 const ProfileSection = styled.section`
   /* background-color: yellow; */
@@ -90,54 +85,48 @@ const StyleTabsButton = styled(TabsButton)`
     margin-right: 0;
   }
 `;
-// const ShowUserPosts = styled(UserPosts)`
-//   display: ${(props) => (props.show ? 'block' : 'none')};
-// `;
 
-// function mapStateToProps(state, props) {
-//   // const profiles = selectUserProfile();
-//   // console.log('props.match.params.id', props.match.params.id);
-//   // console.log('getUserById', getUserById(state, Number(props.match.params.id)));
-//   return {
-//     user: getUserById(state, props.match.params.id),
-//   };
-// }
 export default function UserProfile(props) {
-  console.log('props', props);
+  const allUsers = useSelector(selectUsers);
   const [userId, setUserId] = useState(props.match.params.id);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [location, setLocation] = useState(false);
   const [isOpenMap, setOpenMap] = useState(false);
-  // const [userPosts, setUserPosts] = useGetPostsUser(props.match.params.id, []);
   const [isOpenPost, setOpenPost] = useState(false);
   const [loadPosts, setLoadPosts] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
-  // const userProfile = props.user;
-  // const dispatch = useDispatch();
-  // const getProfile = useSelector(getUserById(userId));
 
-  // useEffect(() => {
-  //   dispatch(getFullUserProfile(userId));
-  // }, [userProfile]);
   useEffect(() => {
-    axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`).then(
-      ({ data }) => {
-        console.log('res', data);
-        setIsLoaded(true);
-        setUserData(data);
-        setLocation([
-          Number(data.address.geo.lat),
-          Number(data.address.geo.lng),
-        ]);
-      },
-      (error) => {
-        console.log('error');
-        setIsLoaded(true);
-        setError(error);
-      }
-    );
+    if (allUsers.find((item) => item.id === Number(userId))) {
+      let userObj = allUsers.find((item) => {
+        return item.id === Number(userId);
+      });
+      setUserData(userObj);
+      setIsLoaded(true);
+      setLocation([
+        Number(userObj.address.geo.lat),
+        Number(userObj.address.geo.lng),
+      ]);
+    } else {
+      axios.get(`https://jsonplaceholder.typicode.com/users/${userId}`).then(
+        ({ data }) => {
+          console.log('res', data);
+          setIsLoaded(true);
+          setUserData(data);
+          setLocation([
+            Number(data.address.geo.lat),
+            Number(data.address.geo.lng),
+          ]);
+        },
+        (error) => {
+          console.log('error');
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+    }
   }, []);
 
   if (error) {
@@ -156,11 +145,9 @@ export default function UserProfile(props) {
         </Header>
         <ProfileWrapper>
           <MainInfoWrap>
-            {
-              <ProfileImage
-                src={`https://picsum.photos/id/${userData.id}/300`}
-              ></ProfileImage>
-            }
+            <ProfileImage
+              src={`https://picsum.photos/id/${userData.id}/300`}
+            ></ProfileImage>
             <MainInfo>
               <UserName>{userData.name}</UserName>
               <UserLink href={`mailto: ${userData.email}`}>
@@ -199,5 +186,3 @@ export default function UserProfile(props) {
     ) : null;
   }
 }
-
-// export default connect(mapStateToProps)(UserProfile);
