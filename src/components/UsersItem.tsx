@@ -46,7 +46,13 @@ const UserItemLink = styled(Link)`
   top: 0;
   bottom: 0;
 `;
-function UsersItem(props) {
+
+type infoUser = {
+  id: number;
+  name: string;
+  email: string;
+};
+function UsersItem(props: { info: any }) {
   const [userInfo, setUserInfo] = useState(props.info);
 
   return (

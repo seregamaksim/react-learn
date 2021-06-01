@@ -34,7 +34,7 @@ function UsersList() {
       dispatch(getUsers());
     }
   }, [dispatch]);
-  const listItems = users.map((item) => {
+  const listItems = users.map((item: { id: number }) => {
     return <UsersItem key={item.id} info={item} />;
   });
   return (

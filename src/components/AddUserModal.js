@@ -160,6 +160,15 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+// interface FormValues {
+//   id: number,
+//   name: string,
+//   email: string,
+//   phone: string,
+//   website: string,
+//   city: string,
+//   companyName: string
+// }
 const onSubmit = async (values, dispatch) => {
   let request = await fetch(
     `https://geocode-maps.yandex.ru/1.x/?apikey=f00883a3-bd7d-4007-a65b-4754989e662c&format=json&geocode=${values.city}`

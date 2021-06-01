@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   users: [],
-  status: null,
+  status: '',
 };
 
 export const getUsers = createAsyncThunk('users/getUsers', async () => {
