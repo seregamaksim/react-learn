@@ -2,6 +2,7 @@ import { Form, Field } from 'react-final-form';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../app/reducers/Users';
+import { YMaps, Map } from 'react-yandex-maps';
 
 const Modal = styled.div`
   display: ${(props) => (props.open ? 'flex' : 'none')};
@@ -19,6 +20,9 @@ const ModalWrapper = styled.div`
   background-color: #fff;
   padding: 15px;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   /* transform: translateY(20px); */
   /* transition: all 0.3s ease; */
 `;
@@ -151,15 +155,20 @@ const Styles = styled.div`
   }
 `;
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 const onSubmit = async (values, dispatch) => {
-  await sleep(300);
+  let request = await fetch(
+    `https://geocode-maps.yandex.ru/1.x/?apikey=f00883a3-bd7d-4007-a65b-4754989e662c&format=json&geocode=${values.city}`
+  );
+  let dataRequest = await request.json();
+  let position =
+    dataRequest.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
+      ' '
+    );
   let userData = {
     id: values.id,
     name: values.name,
@@ -168,8 +177,8 @@ const onSubmit = async (values, dispatch) => {
     website: values.website,
     address: {
       geo: {
-        lat: values.geoDataLat,
-        lng: values.geoDataLng,
+        lat: Number(position[1]),
+        lng: Number(position[0]),
       },
     },
     company: {
@@ -177,13 +186,11 @@ const onSubmit = async (values, dispatch) => {
     },
   };
   dispatch(addUser(userData));
-  // console.log('values', JSON.stringify(values));
-  // console.log('values parse', JSON.parse(JSON.stringify(values)));
-  // window.alert(JSON.stringify(values, 0, 2));
 };
 
 export default function AddUserModal(props) {
   const dispatch = useDispatch();
+
   return (
     <Modal open={props.open}>
       <ModalWrapper>
@@ -261,34 +268,18 @@ export default function AddUserModal(props) {
                 </div>
                 <div>
                   <label>
-                    <span>Geo data lat</span>
+                    <span>City</span>
                     <Field
-                      name="geoDataLat"
+                      name="city"
                       component="input"
                       type="text"
-                      placeholder="Geo data lat"
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <span>Geo data lng</span>
-                    <Field
-                      name="geoDataLng"
-                      component="input"
-                      type="text"
-                      placeholder="Geo data lng"
+                      placeholder="City"
                       required
                     />
                   </label>
                 </div>
                 <div className="buttons">
-                  <button
-                    // onClick={() => dispatch(addUser(values))}
-                    type="submit"
-                    disabled={submitting}
-                  >
+                  <button type="submit" disabled={submitting}>
                     Submit
                   </button>
                   <button

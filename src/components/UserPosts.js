@@ -22,7 +22,7 @@ export default function UserPosts(props) {
       .then(({ data }) => {
         setPosts(data);
       });
-  }, [posts]);
+  }, []);
   let listPosts = posts.map((post) => {
     return <StyledUserPost key={post.id} data={post} />;
   });
