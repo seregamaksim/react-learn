@@ -4,6 +4,7 @@ import UsersItem from './UsersItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, selectUsers } from '../app/reducers/Users';
 import AddUserModal from './AddUserModal';
+import Search from './Search';
 
 const Wrapper = styled.div`
   padding: 20px 15px;
@@ -20,10 +21,14 @@ const AddUserBtn = styled.button`
   background-color: lightblue;
   padding: 10px 15px;
   color: #333;
-  margin-bottom: 30px;
+
   cursor: pointer;
 `;
-
+const HeadWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
 function UsersList() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const users = useSelector(selectUsers);
@@ -39,7 +44,10 @@ function UsersList() {
   });
   return (
     <Wrapper>
-      <AddUserBtn onClick={() => setIsOpenModal(true)}>Add user</AddUserBtn>
+      <HeadWrap>
+        <AddUserBtn onClick={() => setIsOpenModal(true)}>Add user</AddUserBtn>
+        <Search></Search>
+      </HeadWrap>
       <List>{listItems}</List>
       <AddUserModal
         open={isOpenModal}
