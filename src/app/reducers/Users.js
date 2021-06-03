@@ -19,6 +19,11 @@ export const usersSlice = createSlice({
     addUser(state, { payload }) {
       state.users.unshift(payload);
     },
+    // filterUsers(state, {payload}) {
+    //   const results = people.filter(person =>
+    //     person.toLowerCase().includes(searchTerm.toLowerCase())
+    //   );
+    // }
   },
   extraReducers: {
     [getUsers.pending]: (state) => {
