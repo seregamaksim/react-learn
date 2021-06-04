@@ -159,6 +159,8 @@ export default function UserProfile(props) {
               <UserLink href={userData.website}>{userData.website}</UserLink>
               <h3>Jobs</h3>
               <p>{userData.company.name}</p>
+              <h3>City</h3>
+              <p>{userData.address.city}</p>
             </MainInfo>
           </MainInfoWrap>
           <TabsButtons>

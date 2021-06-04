@@ -2,7 +2,6 @@ import { Form, Field } from 'react-final-form';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../app/reducers/Users';
-import { YMaps, Map } from 'react-yandex-maps';
 
 const Modal = styled.div`
   display: ${(props) => (props.open ? 'flex' : 'none')};
@@ -176,6 +175,7 @@ const onSubmit = async (values, dispatch) => {
     phone: values.phone,
     website: values.website,
     address: {
+      city: values.city,
       geo: {
         lat: Number(position[1]),
         lng: Number(position[0]),
@@ -197,7 +197,10 @@ export default function AddUserModal(props) {
         <button onClick={() => props.closeEvent(false)}>X</button>
         <Styles>
           <Form
-            onSubmit={(e) => onSubmit(e, dispatch)}
+            onSubmit={(e) => {
+              onSubmit(e, dispatch);
+              props.closeEvent(false);
+            }}
             initialValues={{ id: getRandomIntInclusive(0, 1000) }}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit={handleSubmit}>

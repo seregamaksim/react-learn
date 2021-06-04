@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UsersItem from './UsersItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, selectUsers } from '../app/reducers/Users';
+import { getUsers, selectFilteredUsers } from '../app/reducers/Users';
 import AddUserModal from './AddUserModal';
 import Search from './Search';
+import EmptyUsersList from './EmptyUsersList';
 
 const Wrapper = styled.div`
   padding: 20px 15px;
@@ -23,15 +24,21 @@ const AddUserBtn = styled.button`
   color: #333;
 
   cursor: pointer;
+  @media (max-width: 600px) {
+    margin-bottom: 10px;
+  }
 `;
 const HeadWrap = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 function UsersList() {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const users = useSelector(selectUsers);
+  const users = useSelector(selectFilteredUsers);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,7 +55,7 @@ function UsersList() {
         <AddUserBtn onClick={() => setIsOpenModal(true)}>Add user</AddUserBtn>
         <Search></Search>
       </HeadWrap>
-      <List>{listItems}</List>
+      {users.length > 0 ? <List>{listItems}</List> : <EmptyUsersList />}
       <AddUserModal
         open={isOpenModal}
         closeEvent={setIsOpenModal}
