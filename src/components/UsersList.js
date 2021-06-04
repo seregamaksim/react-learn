@@ -6,6 +6,7 @@ import { getUsers, selectFilteredUsers } from '../app/reducers/Users';
 import AddUserModal from './AddUserModal';
 import Search from './Search';
 import EmptyUsersList from './EmptyUsersList';
+import SortPanel from './SortPanel';
 
 const Wrapper = styled.div`
   padding: 20px 15px;
@@ -55,6 +56,9 @@ function UsersList() {
         <AddUserBtn onClick={() => setIsOpenModal(true)}>Add user</AddUserBtn>
         <Search></Search>
       </HeadWrap>
+      <div>
+        <SortPanel></SortPanel>
+      </div>
       {users.length > 0 ? <List>{listItems}</List> : <EmptyUsersList />}
       <AddUserModal
         open={isOpenModal}

@@ -15,8 +15,11 @@ const UserItemDelete = styled.button`
   background: none;
   z-index: 2;
   padding: 10px;
-  &:hover {
+  &:hover,
+  &:focus {
     color: red;
+    opacity: 1;
+    pointer-events: all;
   }
 `;
 const UserItem = styled.li`
@@ -70,6 +73,10 @@ const UserItemLink = styled(Link)`
   right: 0;
   top: 0;
   bottom: 0;
+  &:focus ~ ${UserItemDelete} {
+    opacity: 1;
+    pointer-events: all;
+  }
 `;
 
 function UsersItem(props) {
@@ -78,10 +85,10 @@ function UsersItem(props) {
   return (
     <UserItem>
       <UserItemWrap>
+        <UserItemLink to={`/${userInfo.id}`}></UserItemLink>
         <UserItemDelete onClick={() => dispatch(removeUser(userInfo.id))}>
           X
         </UserItemDelete>
-        <UserItemLink to={`/${userInfo.id}`}></UserItemLink>
         {
           <UserItemAva
             src={`https://picsum.photos/id/${userInfo.id}/150`}

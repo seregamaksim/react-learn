@@ -293,7 +293,6 @@ export default function AddUserModal(props) {
                     Reset
                   </button>
                 </div>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
               </form>
             )}
           />
