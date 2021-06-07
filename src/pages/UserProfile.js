@@ -3,9 +3,9 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import isEmpty from '../helpers/isEmpty';
-import UserMapProfile from './UserMapProfile';
-import TabsButton from './TabsButton';
-import UserPosts from './UserPosts';
+import UserMapProfile from '../components/UserMapProfile';
+import TabsButton from '../components/TabsButton';
+import UserPosts from '../components/UserPosts';
 import { useSelector } from 'react-redux';
 import { selectUsers } from '../app/reducers/Users';
 

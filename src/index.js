@@ -3,19 +3,32 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, NavLink } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import styled from 'styled-components';
 
 const HeadLinks = styled.div`
-  background-color: blue;
+  background-color: #88b3bf;
+  padding: 10px 15px;
   a {
-    font-size: 20px;
-    line-height: 28px;
+    font-size: 18px;
+    line-height: 24px;
     color: #fff;
     display: inline-block;
     margin-right: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      opacity: 0.6;
+    }
+    &.active {
+      text-decoration: underline;
+      pointer-events: none;
+    }
   }
 `;
 ReactDOM.render(
@@ -23,8 +36,15 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <HeadLinks>
-          <Link to="/">HOME</Link>
-          <Link to="/form">FORM</Link>
+          <NavLink exact activeClassName="active" to="/">
+            Home
+          </NavLink>
+          {/* <NavLink activeClassName="active" to="/form">
+            Form
+          </NavLink> */}
+          <NavLink activeClassName="active" to="/gallery">
+            Add photos
+          </NavLink>
         </HeadLinks>
         <App />
       </Router>

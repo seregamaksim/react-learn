@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import UsersItem from './UsersItem';
+import UsersItem from '../components/UsersItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, selectFilteredUsers } from '../app/reducers/Users';
-import AddUserModal from './AddUserModal';
-import Search from './Search';
-import EmptyUsersList from './EmptyUsersList';
+import AddUserModal from '../components/AddUserModal';
+import Search from '../components/Search';
+import EmptyUsersList from '../components/EmptyUsersList';
 
 const Wrapper = styled.div`
   padding: 20px 15px;
@@ -21,7 +21,7 @@ const AddUserBtn = styled.button`
   border-radius: 10px;
   background-color: lightblue;
   padding: 10px 15px;
-  color: #333;
+  color: #fff;
 
   cursor: pointer;
   @media (max-width: 600px) {

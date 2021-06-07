@@ -58,6 +58,7 @@ export const usersSlice = createSlice({
             .toLowerCase()
             .includes(payload.value.toLowerCase());
         }
+        return true;
       });
     },
   },
