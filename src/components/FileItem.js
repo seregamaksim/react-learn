@@ -74,7 +74,9 @@ export default function FileItem(props) {
     <>
       <Item className={props.className}>
         <ItemWrapper>
-          <ItemDeleteBtn>X</ItemDeleteBtn>
+          <ItemDeleteBtn onClick={() => props.onDelete(props.index)}>
+            X
+          </ItemDeleteBtn>
 
           <ItemImageWrap>{isImage ? image : imageDocument}</ItemImageWrap>
           <ItemInfoWrap>

@@ -11,17 +11,24 @@ const FormAddFilesStyled = styled(FormAddFiles)`
 `;
 
 export default function PhotoGallery() {
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState([]);
   const [filesCount, setFilesCount] = useState(0);
   useEffect(() => {
     if (files) {
       setFilesCount(files.length);
     }
   }, [files]);
+
+  function removeFile(id = null) {
+    if (typeof id === 'number') {
+      const newFiles = files.filter((item, index) => index !== id);
+      setFiles(newFiles);
+    }
+  }
   return (
     <Wrapper>
       <FormAddFilesStyled filesCount={filesCount} onSubmit={setFiles} />
-      <FilesList files={files}></FilesList>
+      <FilesList files={files} deleteFile={removeFile}></FilesList>
     </Wrapper>
   );
 }

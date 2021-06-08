@@ -35,6 +35,12 @@ const CountFiles = styled.p`
   margin-bottom: 10px;
 `;
 
+function changeInputFile(onSubmit, target) {
+  // console.log('target.files', target.files);
+  const files = Array.from(target.files);
+  console.log('files', files);
+  onSubmit(files);
+}
 export default function FormAddFiles(props) {
   const inputFileRef = useRef(null);
 
@@ -55,7 +61,9 @@ export default function FormAddFiles(props) {
                     {...input}
                     type="file"
                     multiple
-                    onChange={({ target }) => props.onSubmit(target.files)}
+                    onChange={({ target }) =>
+                      changeInputFile(props.onSubmit, target)
+                    }
                     ref={inputFileRef}
                   />
                 )}
