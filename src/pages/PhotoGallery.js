@@ -7,6 +7,8 @@ const Wrapper = styled.div`
   padding: 15px;
 `;
 const FormAddFilesStyled = styled(FormAddFiles)`
+  max-width: 700px;
+  margin: 0 auto;
   margin-bottom: 20px;
 `;
 
