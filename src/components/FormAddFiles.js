@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Field, Form } from 'react-final-form';
+import { Field, Form, FormSpy } from 'react-final-form';
 import styled from 'styled-components';
 
 const AddFilesBlock = styled.div`
@@ -35,7 +35,7 @@ const CountBtnWrap = styled.div`
   align-items: center;
 `;
 const CountFiles = styled.p`
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 `;
 const AddFilesBlockOverlay = styled.div`
   position: absolute;
@@ -44,21 +44,25 @@ const AddFilesBlockOverlay = styled.div`
   bottom: 0;
   top: 0;
   background-color: rgba(255, 255, 255, 0.5);
-  z-index: 1;
+  z-index: 222;
 `;
+
 function changeInputFile(onSubmit, filesList) {
   const files = Array.from(filesList);
   console.log('files', files);
   onSubmit(files);
 }
-
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
 export default function FormAddFiles(props) {
   const inputFileRef = useRef(null);
   const dropElem = useRef(null);
-  const [dragColor, setDragColor] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [isDrag, setIsDrag] = useState(false);
-  let [dragCounter, setDragCounter] = useState(0);
+  const [dragCounter, setDragCounter] = useState(0);
+  const [uploadedFiles, setUploadedFiles] = useState({});
 
   useEffect(() => {
     let dropDiv = dropElem.current;
@@ -76,29 +80,25 @@ export default function FormAddFiles(props) {
   }, [dropElem]);
 
   function handleDrag(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    preventDefaults(e);
   }
   function handleDragIn(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragCounter(dragCounter++);
+    preventDefaults(e);
+    setDragCounter((prevDragCounter) => prevDragCounter++);
     setIsDrag(true);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       setDragging(true);
     }
   }
   function handleDragOut(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragCounter(dragCounter--);
+    preventDefaults(e);
+    setDragCounter((prevDragCounter) => prevDragCounter--);
     setIsDrag(false);
     if (dragCounter > 0) return;
     setDragging(false);
   }
   function handleDrop(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    preventDefaults(e);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       changeInputFile(props.onSubmit, e.dataTransfer.files);
       e.dataTransfer.clearData();
@@ -115,6 +115,18 @@ export default function FormAddFiles(props) {
     }
     triggerInput();
   }
+  // async function submitForm() {
+  //   let uploadValues = props.files;
+  //   let formData = new FormData();
+  //   formData.append('files', uploadValues);
+  //   let resp = await fetch('http://localhost:3000/gallery', {
+  //     method: 'post',
+  //     // body: formData,
+  //     body: uploadValues,
+  //   });
+  //   let respJson = await resp.json();
+  //   console.log('respJson', respJson);
+  // }
   return (
     <AddFilesBlock
       onClick={clickFilesBlock}
@@ -122,9 +134,9 @@ export default function FormAddFiles(props) {
       ref={dropElem}
       className={props.className}
     >
-      {dragging && <AddFilesBlockOverlay />}
+      {isDrag && <AddFilesBlockOverlay />}
       <Form
-        onSubmit={props.onSubmit}
+        onSubmit={() => console.log('submit')}
         render={({ handleSubmit, values }) => (
           <form onSubmit={handleSubmit}>
             <label>
@@ -134,14 +146,17 @@ export default function FormAddFiles(props) {
                     {...input}
                     type="file"
                     multiple
-                    onChange={({ target }) =>
-                      changeInputFile(props.onSubmit, target.files)
-                    }
+                    onChange={({ target }) => {
+                      setUploadedFiles(target.files);
+                      changeInputFile(props.onSubmit, target.files);
+                      onChange(target.files);
+                    }}
                     ref={inputFileRef}
                   />
                 )}
               </Field>
             </label>
+            {/* {props.filesCount > 0 && <button type="submit">Send</button>} */}
           </form>
         )}
       />

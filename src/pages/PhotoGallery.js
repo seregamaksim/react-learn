@@ -29,7 +29,11 @@ export default function PhotoGallery() {
   }
   return (
     <Wrapper>
-      <FormAddFilesStyled filesCount={filesCount} onSubmit={setFiles} />
+      <FormAddFilesStyled
+        files={files}
+        filesCount={filesCount}
+        onSubmit={setFiles}
+      />
       <FilesList files={files} deleteFile={removeFile}></FilesList>
     </Wrapper>
   );

@@ -36,6 +36,7 @@ const HeadWrap = styled.div`
     flex-direction: column;
   }
 `;
+
 function UsersList() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const users = useSelector(selectFilteredUsers);

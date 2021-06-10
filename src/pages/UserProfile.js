@@ -3,11 +3,11 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import isEmpty from '../helpers/isEmpty';
-import UserMapProfile from '../components/UserMapProfile';
-import TabsButton from '../components/TabsButton';
 import UserPosts from '../components/UserPosts';
 import { useSelector } from 'react-redux';
 import { selectUsers } from '../app/reducers/Users';
+import UserMapProfile from '../components/UserMapProfile';
+import TabsButton from '../components/TabsButton';
 
 const ProfileSection = styled.section`
   /* background-color: yellow; */
@@ -17,8 +17,8 @@ const ProfileWrapper = styled.div`
   padding: 15px;
   width: 100%;
   /* display: flex;
-  justify-content: space-between;
-  align-items: flex-start; */
+justify-content: space-between;
+align-items: flex-start; */
 `;
 
 const ProfileImage = styled.img.attrs((props) => ({
