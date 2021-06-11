@@ -45,6 +45,9 @@ ReactDOM.render(
           <NavLink activeClassName="active" to="/gallery">
             Add photos
           </NavLink>
+          <NavLink activeClassName="active" to="/trello">
+            Trello
+          </NavLink>
         </HeadLinks>
         <App />
       </Router>

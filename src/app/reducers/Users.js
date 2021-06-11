@@ -29,23 +29,6 @@ export const usersSlice = createSlice({
       });
     },
     filterUsers(state, { payload }) {
-      // if (payload.type === 'name') {
-      //   state.filteredUsers = state.users.filter((user) => {
-      //     return user.name.toLowerCase().includes(payload.value.toLowerCase());
-      //   });
-      // } else if (payload.type === 'company') {
-      //   state.filteredUsers = state.users.filter((user) => {
-      //     return user.company.name
-      //       .toLowerCase()
-      //       .includes(payload.value.toLowerCase());
-      //   });
-      // } else if (payload.type === 'city') {
-      //   state.filteredUsers = state.users.filter((user) => {
-      //     return user.address.city
-      //       .toLowerCase()
-      //       .includes(payload.value.toLowerCase());
-      //   });
-      // }
       state.filteredUsers = state.users.filter((user) => {
         if (payload.type === 'name') {
           return user.name.toLowerCase().includes(payload.value.toLowerCase());
