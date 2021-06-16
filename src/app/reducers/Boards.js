@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  boards: [],
+  boards: [
+    { id: 1, title: 'Need' },
+    { id: 2, title: 'In progress' },
+    { id: 3, title: 'Done' },
+  ],
 };
 
 export const boardsSlice = createSlice({
