@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { addNewCard, selectCards } from '../app/reducers/BoardCards';
 import { removeBoard } from '../app/reducers/Boards';
 import ColumnCard from './ColumnCard';
 
@@ -29,49 +30,53 @@ const StyledColumnCard = styled(ColumnCard)`
   margin-bottom: 10px;
   list-style: none;
 `;
+
 export default function BoardColumn(props) {
-  const [cards, setCards] = useState([]);
   const [newCardTitle, setNewCardTitle] = useState('');
   const [isOpenAddCard, setIsAddOpenCard] = useState(false);
-  const data = props.data;
   const dispatch = useDispatch();
+  const allCards = useSelector(selectCards);
+  const data = props.data;
 
   function addCard() {
     if (newCardTitle.length > 0) {
-      setCards((prevCards) =>
-        prevCards.concat({ id: Date.now(), text: newCardTitle })
+      dispatch(
+        addNewCard({
+          columnId: data.id,
+          id: Date.now(),
+          text: newCardTitle,
+        })
       );
       setNewCardTitle('');
     }
   }
-  function removeCard(id) {
-    const newCards = cards.filter((item) => item.id !== id);
-    setCards(newCards);
-  }
 
   return (
     <Column className={props.className}>
-      {/* header */}
       <ColumnHeader>
         <ColumnHeaderTitle>{data.title}</ColumnHeaderTitle>
         <button onClick={() => dispatch(removeBoard(data.id))}>X</button>
       </ColumnHeader>
-      {/* cards */}
       <ColumnCardsList>
-        {cards.length > 0 &&
-          cards.map((item, index) => (
-            <StyledColumnCard
-              key={index}
-              data={item}
-              openCardModal={props.openCardModal}
-              removeHandle={removeCard}
-            />
-          ))}
+        {allCards.length > 0 &&
+          allCards
+            .filter((item) => item.columnId === data.id)
+            .map((item, index) => (
+              <StyledColumnCard
+                key={index}
+                data={item}
+                openCardModal={props.openCardModal}
+              />
+            ))}
       </ColumnCardsList>
-      {/* footer */}
       <div>
         {!isOpenAddCard && (
-          <button onClick={() => setIsAddOpenCard(true)}>
+          <button
+            onClick={() => {
+              setIsAddOpenCard(true);
+              // console.log('inputRef', inputRef.current);
+            }}
+          >
             Add one more card
           </button>
         )}
@@ -81,6 +86,11 @@ export default function BoardColumn(props) {
               type="text"
               value={newCardTitle}
               onChange={(e) => setNewCardTitle(e.target.value)}
+              onKeyUp={(e) => {
+                if (e.code === 'Enter') {
+                  addCard();
+                }
+              }}
               placeholder="Input title card"
             />
             <div>

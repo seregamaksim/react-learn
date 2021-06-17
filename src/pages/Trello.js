@@ -10,6 +10,7 @@ const Board = styled.div`
   height: calc(100vh - 44px);
   width: 100%;
   overflow: auto;
+  padding: 15px;
 `;
 
 const AddColumnBlock = styled.div`

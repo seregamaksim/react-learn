@@ -39,9 +39,6 @@ ReactDOM.render(
           <NavLink exact activeClassName="active" to="/">
             Home
           </NavLink>
-          {/* <NavLink activeClassName="active" to="/form">
-            Form
-          </NavLink> */}
           <NavLink activeClassName="active" to="/gallery">
             Add photos
           </NavLink>
