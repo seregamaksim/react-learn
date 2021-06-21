@@ -2,8 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { addDescriptionId, updateTitle } from '../app/reducers/BoardCards';
-import { addDescription } from '../app/reducers/BoardCardsDescription';
+import {
+  addDescription,
+  updateDescription,
+  removeDescription,
+} from '../app/reducers/BoardCardsDescription';
 import isEmpty from '../helpers/isEmpty';
+import DescriptionCardItem from './DescriptionCardItem';
 
 const Modal = styled.div`
   position: fixed;
@@ -18,7 +23,7 @@ const Modal = styled.div`
 `;
 const ModalWrapper = styled.div`
   padding: 15px;
-  background-color: #cecece;
+  background-color: #ebecf0;
   width: 60vw;
 `;
 const ModalHead = styled.div`
@@ -34,6 +39,12 @@ const ModalTextarea = styled.textarea`
 const ModalDescrWrap = styled.div`
   margin-bottom: 10px;
 `;
+const ModalDescrHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const ModalTitle = styled.h3`
   display: none;
 `;
@@ -53,9 +64,11 @@ const ModalTitleTextarea = styled.textarea`
     border: 1px solid #cecece;
   }
 `;
+
 function BoardCardModal(props) {
   const [descriptionVal, setDescriptionVal] = useState('');
   const [defaultTitle, setDefaultTitle] = useState('');
+
   const cardInfo = props.cardInfo;
   const dispatch = useDispatch();
   const textareaRef = useRef(null);
@@ -119,10 +132,14 @@ function BoardCardModal(props) {
         <hr />
         {props.description && (
           <ModalDescrWrap>
-            <h4>Description:</h4>
-            {props.description.map((item) => (
-              <p key={item.id}>{item.body}</p>
-            ))}
+            <ModalDescrHead>
+              <h4>Description:</h4>
+            </ModalDescrHead>
+            <div>
+              {props.description.map((item) => (
+                <DescriptionCardItem key={item.id} info={item} />
+              ))}
+            </div>
           </ModalDescrWrap>
         )}
 

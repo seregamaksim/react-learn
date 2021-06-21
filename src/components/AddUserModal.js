@@ -154,11 +154,11 @@ const Styles = styled.div`
   }
 `;
 
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+// function getRandomIntInclusive(min, max) {
+//   min = Math.ceil(min);
+//   max = Math.floor(max);
+//   return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
 const onSubmit = async (values, dispatch) => {
   let request = await fetch(
     `https://geocode-maps.yandex.ru/1.x/?apikey=f00883a3-bd7d-4007-a65b-4754989e662c&format=json&geocode=${values.city}`
@@ -201,7 +201,7 @@ export default function AddUserModal(props) {
               onSubmit(e, dispatch);
               props.closeEvent(false);
             }}
-            initialValues={{ id: getRandomIntInclusive(0, 1000) }}
+            initialValues={{ id: Date.now() }}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
               <form onSubmit={handleSubmit}>
                 <Field
